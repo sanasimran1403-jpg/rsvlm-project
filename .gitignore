@@ -1,0 +1,9 @@
+rsvlm-env/
+__pycache__/
+*.pyc
+data/
+*.tif
+*.tiff
+*.pth
+*.safetensors
+.ipynb_checkpoints/
