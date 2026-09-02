@@ -1,12 +1,12 @@
 rsvlm-env/
 __pycache__/
 *.pyc
-data/
+/data/
 *.tif
 *.tiff
 *.pth
 *.safetensors
 .ipynb_checkpoints/
 vlm_input.jpg
-data/sample_bigearthnet.tif
-data/test_sample.jpg
+/data/sample_bigearthnet.tif
+/data/test_sample.jpg
