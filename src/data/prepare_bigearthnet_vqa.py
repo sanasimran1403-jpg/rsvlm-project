@@ -28,7 +28,7 @@ def build_dataset(split="train", num_samples=2000, output_path=None):
         if i >= num_samples:
             break
 
-        img_path = f"data/bigearthnet_images/{split}_{i}.jpg"
+        img_path = f"/content/rsvlm-project/data/bigearthnet_images/{split}_{i}.jpg"
         os.makedirs(os.path.dirname(img_path), exist_ok=True)
         sample["img"].save(img_path)
 

@@ -75,7 +75,7 @@ def main():
     model = get_peft_model(model, lora_config)
     model.print_trainable_parameters()
 
-    train_dataset = BigEarthNetVQADataset("rsvlm-project/data/bigearthnet_vqa_train.json", processor)
+    train_dataset = BigEarthNetVQADataset("/content/rsvlm-project/data/bigearthnet_vqa_train.json", processor)
     train_loader = DataLoader(
         train_dataset, batch_size=1, shuffle=True,
         collate_fn=lambda b: collate_fn(b, processor)
@@ -98,10 +98,10 @@ def main():
                 print(f"epoch {epoch} step {step} loss {loss.item():.4f}")
 
             if step % 500 == 0 and step > 0:
-                model.save_pretrained(f"rsvlm-project/checkpoints/lora_epoch{epoch}_step{step}")
+                model.save_pretrained(f"/content/rsvlm-project/checkpoints/lora_epoch{epoch}_step{step}")
                 print(f"checkpoint saved at step {step}")
 
-    model.save_pretrained("rsvlm-project/checkpoints/lora_final")
+    model.save_pretrained("/content/rsvlm-project/checkpoints/lora_final")
     print("training complete, final adapter saved")
 
 
