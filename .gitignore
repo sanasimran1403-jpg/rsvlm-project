@@ -7,3 +7,6 @@ data/
 *.pth
 *.safetensors
 .ipynb_checkpoints/
+vlm_input.jpg
+data/sample_bigearthnet.tif
+data/test_sample.jpg
