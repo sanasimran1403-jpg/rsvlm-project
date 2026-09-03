@@ -98,10 +98,10 @@ def main():
                 print(f"epoch {epoch} step {step} loss {loss.item():.4f}")
 
             if step % 500 == 0 and step > 0:
-                model.save_pretrained(f"/content/rsvlm-project/checkpoints/lora_epoch{epoch}_step{step}")
+                model.save_pretrained(f"/content/drive/MyDrive/rsvlm_checkpoints/lora_epoch{epoch}_step{step}")
                 print(f"checkpoint saved at step {step}")
 
-    model.save_pretrained("/content/rsvlm-project/checkpoints/lora_final")
+    model.save_pretrained("/content/drive/MyDrive/rsvlm_checkpoints/lora_final")
     print("training complete, final adapter saved")
 
 
