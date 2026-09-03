@@ -1,6 +1,8 @@
 """
 Phase 2: Converts BigEarthNet multi-label data into VQA-style
 instruction-tuning format for LoRA fine-tuning of Qwen2-VL.
+Uses shuffled streaming to avoid class imbalance from sequential
+(locality-clustered) sample order.
 """
 from datasets import load_dataset
 import json
@@ -12,6 +14,9 @@ QUESTION_TEMPLATES = [
     "What classes of land cover can be identified here?",
 ]
 
+SHUFFLE_BUFFER_SIZE = 10000
+SHUFFLE_SEED = 42
+
 
 def format_answer(labels):
     """Turn label list into a natural sentence."""
@@ -22,6 +27,7 @@ def format_answer(labels):
 
 def build_dataset(split="train", num_samples=2000, output_path=None):
     ds = load_dataset("danielz01/BigEarthNet-S2-v1.0", split=split, streaming=True)
+    ds = ds.shuffle(seed=SHUFFLE_SEED, buffer_size=SHUFFLE_BUFFER_SIZE)
 
     records = []
     for i, sample in enumerate(ds):
@@ -46,12 +52,21 @@ def build_dataset(split="train", num_samples=2000, output_path=None):
             print(f"processed {i + 1} samples")
 
     if output_path is None:
-        output_path = f"data/bigearthnet_vqa_{split}.json"
+        output_path = f"/content/rsvlm-project/data/bigearthnet_vqa_{split}.json"
 
     with open(output_path, "w") as f:
         json.dump(records, f, indent=2)
 
     print(f"Saved {len(records)} records to {output_path}")
+
+    # quick class distribution report
+    from collections import Counter
+    label_counts = Counter()
+    for r in records:
+        for l in r["raw_labels"]:
+            label_counts[l] += 1
+    print("Top labels in this split:", label_counts.most_common(10))
+
     return output_path
 
 
